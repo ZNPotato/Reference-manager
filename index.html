@@ -4,92 +4,64 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>📚 참고문헌 매니저</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>" />
 <style>
   :root {
-    --bg: #F9F7F7;
-    --light: #DBE2EF;
-    --mid: #3F72AF;
-    --dark: #112D4E;
-    --white: #ffffff;
-    --danger: #e24b4a;
-    --warning: #ba7517;
-    --success: #3b6d11;
-    --radius-sm: 10px;
-    --radius-md: 14px;
-    --radius-lg: 20px;
+    --bg: #F9F7F7; --light: #DBE2EF; --mid: #3F72AF; --dark: #112D4E;
+    --white: #fff; --danger: #e24b4a; --r-sm: 10px; --r-md: 14px; --r-lg: 20px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif; color: var(--dark); min-height: 100vh; }
-
-  /* ── LOGIN ── */
-  #login-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; }
-  .login-card { background: var(--white); border-radius: var(--radius-lg); border: 1.5px solid var(--light); padding: 2.5rem 2rem; max-width: 420px; width: 100%; }
-  .login-logo { text-align: center; font-size: 48px; margin-bottom: 1rem; }
-  .login-title { text-align: center; font-size: 22px; font-weight: 600; color: var(--dark); margin-bottom: 6px; }
-  .login-sub { text-align: center; font-size: 13px; color: #888; margin-bottom: 2rem; }
-  .login-label { font-size: 13px; color: #666; margin-bottom: 6px; display: block; }
-  .login-input { width: 100%; padding: 11px 14px; border: 1.5px solid var(--light); border-radius: var(--radius-sm); font-size: 14px; background: var(--bg); color: var(--dark); outline: none; transition: border 0.15s; }
-  .login-input:focus { border-color: var(--mid); background: var(--white); }
-  .login-btn { width: 100%; margin-top: 14px; padding: 12px; background: var(--dark); color: var(--white); border: none; border-radius: var(--radius-sm); font-size: 15px; font-weight: 500; cursor: pointer; transition: opacity 0.15s; }
-  .login-btn:hover { opacity: 0.85; }
-  .login-notice { margin-top: 14px; font-size: 12px; color: #999; text-align: center; line-height: 1.6; }
-  .login-notice a { color: var(--mid); }
-  .login-err { color: var(--danger); font-size: 13px; margin-top: 8px; text-align: center; display: none; }
+  body { background: var(--bg); font-family: 'Apple SD Gothic Neo', 'Pretendard', sans-serif; color: var(--dark); min-height: 100vh; }
 
   /* ── LAYOUT ── */
-  #app { display: none; flex-direction: column; min-height: 100vh; }
+  #app { display: flex; flex-direction: column; min-height: 100vh; }
   header { background: var(--dark); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-  .header-left { display: flex; align-items: center; gap: 12px; }
-  .header-icon { width: 40px; height: 40px; background: var(--mid); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-  .header-title { color: var(--white); font-size: 18px; font-weight: 600; }
-  .header-sub { color: var(--light); font-size: 12px; }
-  .header-actions { display: flex; gap: 8px; align-items: center; }
-  .btn-header { background: rgba(255,255,255,0.12); color: var(--white); border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; padding: 7px 13px; font-size: 13px; cursor: pointer; transition: background 0.15s; white-space: nowrap; }
-  .btn-header:hover { background: rgba(255,255,255,0.22); }
-  .btn-header.danger { background: rgba(226,75,74,0.2); border-color: rgba(226,75,74,0.4); }
+  .h-left { display: flex; align-items: center; gap: 12px; }
+  .h-icon { width: 40px; height: 40px; background: var(--mid); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .h-title { color: var(--white); font-size: 18px; font-weight: 600; }
+  .h-sub { color: var(--light); font-size: 12px; }
+  .h-actions { display: flex; gap: 8px; }
+  .btn-h { background: rgba(255,255,255,.12); color: var(--white); border: 1px solid rgba(255,255,255,.2); border-radius: 10px; padding: 7px 13px; font-size: 13px; cursor: pointer; transition: background .15s; white-space: nowrap; }
+  .btn-h:hover { background: rgba(255,255,255,.22); }
 
   main { flex: 1; max-width: 820px; width: 100%; margin: 0 auto; padding: 1.5rem 1.25rem; }
 
   /* ── TABS ── */
   .tabs { display: flex; gap: 8px; margin-bottom: 1.25rem; }
-  .tab { flex: 1; padding: 11px 0; border-radius: var(--radius-md); border: 2px solid var(--light); background: var(--white); color: var(--dark); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.18s; display: flex; align-items: center; justify-content: center; gap: 7px; }
+  .tab { flex: 1; padding: 11px 0; border-radius: var(--r-md); border: 2px solid var(--light); background: var(--white); color: var(--dark); font-size: 14px; font-weight: 500; cursor: pointer; transition: all .18s; display: flex; align-items: center; justify-content: center; gap: 7px; }
   .tab.active { background: var(--mid); border-color: var(--mid); color: var(--white); }
   .tab:hover:not(.active) { border-color: var(--mid); color: var(--mid); }
-
-  /* ── PANELS ── */
-  .panel { display: none; }
-  .panel.active { display: block; }
+  .panel { display: none; } .panel.active { display: block; }
 
   /* ── CARDS ── */
-  .card { background: var(--white); border-radius: var(--radius-md); padding: 1.25rem 1.5rem; border: 1.5px solid var(--light); margin-bottom: 1rem; }
+  .card { background: var(--white); border-radius: var(--r-md); padding: 1.25rem 1.5rem; border: 1.5px solid var(--light); margin-bottom: 1rem; }
   .card-title { font-size: 14px; font-weight: 600; color: var(--dark); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
 
   /* ── FORM ── */
-  label.field-label { font-size: 13px; color: #666; margin-bottom: 5px; display: block; }
-  textarea, input[type=text], select { width: 100%; padding: 9px 13px; border: 1.5px solid var(--light); border-radius: var(--radius-sm); font-size: 13px; background: var(--bg); color: var(--dark); outline: none; font-family: inherit; transition: border 0.15s; }
+  textarea, input[type=text], select { width: 100%; padding: 9px 13px; border: 1.5px solid var(--light); border-radius: var(--r-sm); font-size: 13px; background: var(--bg); color: var(--dark); outline: none; font-family: inherit; transition: border .15s; }
   textarea:focus, input[type=text]:focus, select:focus { border-color: var(--mid); background: var(--white); }
   textarea { resize: vertical; }
-  .field-row { margin-bottom: 14px; }
-
-  .upload-zone { border: 2px dashed var(--light); border-radius: var(--radius-sm); padding: 13px; text-align: center; cursor: pointer; color: #999; font-size: 13px; background: var(--bg); transition: all 0.15s; margin-top: 7px; }
+  .upload-zone { border: 2px dashed var(--light); border-radius: var(--r-sm); padding: 13px; text-align: center; cursor: pointer; color: #999; font-size: 13px; background: var(--bg); transition: all .15s; margin-top: 7px; }
   .upload-zone:hover { border-color: var(--mid); color: var(--mid); background: #eef3fa; }
+  .field-mb { margin-bottom: 14px; }
 
   /* ── BUTTONS ── */
-  .btn-primary { background: var(--mid); color: var(--white); border: none; border-radius: var(--radius-sm); padding: 10px 20px; font-size: 14px; font-weight: 500; cursor: pointer; transition: opacity 0.15s; display: inline-flex; align-items: center; gap: 6px; }
-  .btn-primary:hover:not(:disabled) { opacity: 0.87; }
-  .btn-primary:disabled { opacity: 0.42; cursor: not-allowed; }
-  .btn-outline { background: var(--white); color: var(--dark); border: 1.5px solid var(--light); border-radius: var(--radius-sm); padding: 8px 15px; font-size: 13px; cursor: pointer; transition: all 0.15s; display: inline-flex; align-items: center; gap: 5px; }
-  .btn-outline:hover { border-color: var(--mid); color: var(--mid); }
-  .btn-sm { padding: 6px 12px; font-size: 12px; }
+  .btn-p { background: var(--mid); color: var(--white); border: none; border-radius: var(--r-sm); padding: 10px 20px; font-size: 14px; font-weight: 500; cursor: pointer; transition: opacity .15s; display: inline-flex; align-items: center; gap: 6px; }
+  .btn-p:hover { opacity: .87; }
+  .btn-o { background: var(--white); color: var(--dark); border: 1.5px solid var(--light); border-radius: var(--r-sm); padding: 8px 14px; font-size: 13px; cursor: pointer; transition: all .15s; display: inline-flex; align-items: center; gap: 5px; }
+  .btn-o:hover { border-color: var(--mid); color: var(--mid); }
+  .btn-sm { padding: 6px 11px; font-size: 12px; }
+  .btn-icon { background: none; border: none; cursor: pointer; font-size: 15px; padding: 5px; border-radius: 8px; transition: background .15s; }
+  .btn-icon:hover { background: #fce8e8; }
 
   /* ── STYLE ROW ── */
-  .style-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .style-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
   .style-row label { font-size: 13px; color: #888; white-space: nowrap; }
   .style-row select { width: auto; flex: none; }
 
   /* ── VIEW BTNS ── */
   .view-btns { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem; }
-  .view-btn { padding: 7px 14px; border-radius: 10px; font-size: 13px; font-weight: 500; border: 1.5px solid var(--light); background: var(--white); color: var(--dark); cursor: pointer; transition: all 0.15s; }
+  .view-btn { padding: 7px 14px; border-radius: 10px; font-size: 13px; font-weight: 500; border: 1.5px solid var(--light); background: var(--white); color: var(--dark); cursor: pointer; transition: all .15s; }
   .view-btn.active { background: var(--dark); border-color: var(--dark); color: var(--white); }
   .view-btn:hover:not(.active) { border-color: var(--mid); color: var(--mid); }
 
@@ -98,7 +70,6 @@
   .badge-red { background: #fce8e8; color: #a32d2d; }
   .badge-amber { background: #faeeda; color: #854f0b; }
   .badge-green { background: #eaf3de; color: #3b6d11; }
-  .badge-blue { background: #dce9f7; color: var(--mid); }
   .badge-gray { background: var(--light); color: var(--dark); }
 
   /* ── RESULT ROWS ── */
@@ -107,86 +78,59 @@
 
   /* ── STAT GRID ── */
   .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; }
-  .stat-card { background: var(--bg); border-radius: var(--radius-md); padding: 1rem; text-align: center; border: 1.5px solid var(--light); }
+  .stat-card { background: var(--bg); border-radius: var(--r-md); padding: 1rem; text-align: center; border: 1.5px solid var(--light); }
   .stat-emoji { font-size: 24px; margin-bottom: 4px; }
   .stat-label { font-size: 12px; color: #888; margin-bottom: 6px; }
   .stat-val { font-size: 28px; font-weight: 600; color: var(--dark); }
 
   /* ── FOLDERS ── */
   .folder-row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 1rem; }
-  .folder-chip { display: inline-flex; align-items: center; gap: 5px; padding: 6px 13px; border-radius: 20px; font-size: 13px; cursor: pointer; border: 1.5px solid var(--light); background: var(--white); color: var(--dark); transition: all 0.15s; font-weight: 500; user-select: none; }
+  .folder-chip { display: inline-flex; align-items: center; gap: 5px; padding: 6px 13px; border-radius: 20px; font-size: 13px; cursor: pointer; border: 1.5px solid var(--light); background: var(--white); color: var(--dark); transition: all .15s; font-weight: 500; user-select: none; }
   .folder-chip.active { background: var(--dark); border-color: var(--dark); color: var(--white); }
   .folder-chip:hover:not(.active) { border-color: var(--mid); color: var(--mid); }
-  .folder-chip .del { opacity: 0.45; margin-left: 3px; font-size: 15px; line-height: 1; }
-  .folder-chip:hover .del { opacity: 1; }
-  .new-folder-wrap { display: flex; gap: 6px; align-items: center; }
-  .new-folder-wrap input { width: 140px; padding: 7px 11px; font-size: 13px; }
+  .chip-del { opacity: .45; margin-left: 3px; font-size: 15px; }
+  .folder-chip:hover .chip-del { opacity: 1; }
+  .nf-wrap { display: flex; gap: 6px; align-items: center; }
+  .nf-wrap input { width: 140px; padding: 7px 11px; font-size: 13px; }
 
   /* ── REF ITEMS ── */
   .ref-item { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--light); }
   .ref-item:last-child { border-bottom: none; }
   .ref-title { font-size: 14px; font-weight: 500; color: var(--dark); margin-bottom: 3px; }
   .ref-meta { font-size: 12px; color: #888; margin-bottom: 5px; }
-  .ref-actions { display: flex; gap: 6px; align-items: center; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+  .ref-actions { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
   .ref-actions select { width: auto; padding: 5px 8px; font-size: 12px; border-radius: 8px; }
-  .btn-icon { background: none; border: none; cursor: pointer; font-size: 16px; padding: 5px; border-radius: 8px; transition: background 0.15s; }
-  .btn-icon:hover { background: #fce8e8; }
 
-  /* ── LOADING ── */
-  .loading-bar { display: flex; align-items: center; gap: 10px; color: var(--mid); font-size: 14px; padding: 12px 0; }
-  .spinner { width: 18px; height: 18px; border: 2.5px solid var(--light); border-top-color: var(--mid); border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
-  @keyframes spin { to { transform: rotate(360deg); } }
+  /* ── INFO BOX ── */
+  .info-box { background: #eef3fa; border: 1.5px solid #c5d8f0; border-radius: var(--r-sm); padding: 12px 15px; font-size: 13px; color: #1a3a5c; margin-bottom: 1rem; line-height: 1.7; }
+  .info-box strong { color: var(--dark); }
 
-  /* ── MISC ── */
   .empty { text-align: center; padding: 2.5rem 0; color: #bbb; font-size: 14px; }
   .count-note { font-size: 12px; color: #aaa; margin-top: 8px; }
-  .data-bar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 1rem; padding: 10px 14px; background: var(--white); border: 1.5px solid var(--light); border-radius: var(--radius-sm); }
-  .data-bar span { font-size: 13px; color: #888; flex: 1; }
   .err-text { color: var(--danger); font-size: 13px; margin-top: 8px; }
-  .ok-text { color: #3b6d11; font-size: 13px; margin-top: 8px; }
 
   @media (max-width: 540px) {
-    header { padding: 0.75rem 1rem; }
-    .header-title { font-size: 15px; }
-    .btn-header { padding: 6px 10px; font-size: 12px; }
-    main { padding: 1rem 0.75rem; }
+    header { padding: .75rem 1rem; }
+    .h-title { font-size: 15px; }
+    .btn-h { padding: 6px 10px; font-size: 12px; }
+    main { padding: 1rem .75rem; }
   }
 </style>
 </head>
 <body>
-
-<!-- ══════════════ LOGIN ══════════════ -->
-<div id="login-screen">
-  <div class="login-card">
-    <div class="login-logo">📚</div>
-    <div class="login-title">참고문헌 매니저</div>
-    <div class="login-sub">Anthropic API Key를 입력하면 바로 시작할 수 있어요</div>
-    <label class="login-label" for="api-key-input">🔑 Anthropic API Key</label>
-    <input class="login-input" type="password" id="api-key-input" placeholder="sk-ant-..." autocomplete="off" />
-    <div id="login-err" class="login-err">API Key가 올바르지 않거나 연결에 실패했어요.</div>
-    <button class="login-btn" id="login-btn">시작하기 →</button>
-    <div class="login-notice">
-      🔒 입력한 Key는 이 브라우저에만 저장되며 외부 서버로 전송되지 않아요.<br/>
-      Key가 없다면 <a href="https://console.anthropic.com/" target="_blank">Anthropic Console</a>에서 발급받을 수 있어요.
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════ APP ══════════════ -->
 <div id="app">
   <header>
-    <div class="header-left">
-      <div class="header-icon">📚</div>
+    <div class="h-left">
+      <div class="h-icon">📚</div>
       <div>
-        <div class="header-title">참고문헌 매니저</div>
-        <div class="header-sub">인용 검증 · 서지 파싱 · 폴더 관리</div>
+        <div class="h-title">참고문헌 매니저</div>
+        <div class="h-sub">인용 검증 · 서지 정리 · 폴더 관리</div>
       </div>
     </div>
-    <div class="header-actions">
-      <button class="btn-header" id="btn-export">💾 내보내기</button>
-      <button class="btn-header" id="btn-import-trigger">📂 불러오기</button>
+    <div class="h-actions">
+      <button class="btn-h" id="btn-export">💾 내보내기</button>
+      <button class="btn-h" id="btn-import-trigger">📂 불러오기</button>
       <input type="file" id="btn-import" accept=".json" style="display:none" />
-      <button class="btn-header danger" id="btn-logout">🔑 로그아웃</button>
     </div>
   </header>
 
@@ -196,40 +140,41 @@
       <button class="tab" data-tab="library">🗂️ 참고문헌 라이브러리</button>
     </div>
 
-    <!-- ── VERIFY PANEL ── -->
+    <!-- ── VERIFY ── -->
     <div class="panel active" id="panel-verify">
+      <div class="info-box">
+        💡 <strong>사용법:</strong> 논문 본문과 참고문헌 목록을 각각 붙여넣거나 파일로 업로드하면, 인용 패턴을 자동으로 분석해 드려요. APA·MLA·Chicago·한국식(각주) 스타일을 지원해요.
+      </div>
       <div class="style-row">
         <label>📌 인용 스타일</label>
         <select id="cite-style">
-          <option>APA</option><option>MLA</option><option>Chicago</option>
-          <option>한국식(각주/미주)</option><option>자동감지</option>
+          <option value="apa">APA &nbsp;예) (홍길동, 2023) / (Hong, 2023)</option>
+          <option value="mla">MLA &nbsp;예) (Hong 23)</option>
+          <option value="chicago">Chicago &nbsp;예) 각주 숫자¹ / (Hong 2023, 45)</option>
+          <option value="korean">한국식 각주/미주 &nbsp;예) 홍길동(2023)</option>
+          <option value="auto">자동감지 (전체 패턴 시도)</option>
         </select>
       </div>
 
       <div class="card">
         <div class="card-title">📄 논문 본문</div>
-        <textarea id="body-text" rows="6" placeholder="논문 본문을 붙여넣기..."></textarea>
+        <textarea id="body-text" rows="7" placeholder="논문 본문을 붙여넣기..."></textarea>
         <div class="upload-zone" id="body-drop">
-          📎 파일 업로드 — PDF · DOCX · TXT · 클릭 또는 드래그
-          <input type="file" id="body-file" accept=".pdf,.docx,.txt" style="display:none" />
+          📎 파일 업로드 — DOCX · TXT · 클릭 또는 드래그
+          <input type="file" id="body-file" accept=".docx,.txt" style="display:none" />
         </div>
       </div>
 
       <div class="card">
         <div class="card-title">📚 참고문헌 목록</div>
-        <textarea id="ref-text" rows="6" placeholder="참고문헌 목록을 붙여넣기..."></textarea>
+        <textarea id="ref-text" rows="7" placeholder="참고문헌 목록을 붙여넣기..."></textarea>
         <div class="upload-zone" id="ref-drop">
-          📎 파일 업로드 — PDF · DOCX · TXT · 클릭 또는 드래그
-          <input type="file" id="ref-file" accept=".pdf,.docx,.txt" style="display:none" />
+          📎 파일 업로드 — DOCX · TXT · 클릭 또는 드래그
+          <input type="file" id="ref-file" accept=".docx,.txt" style="display:none" />
         </div>
       </div>
 
-      <button class="btn-primary" id="btn-verify">🔍 검증 시작</button>
-
-      <div id="verify-loading" class="loading-bar" style="display:none">
-        <div class="spinner"></div> AI가 인용을 분석하고 있어요...
-      </div>
-      <div id="verify-err" class="err-text" style="display:none">⚠️ 분석 중 오류가 발생했어요. 다시 시도해 주세요.</div>
+      <button class="btn-p" id="btn-verify">🔍 검증 시작</button>
 
       <div id="verify-result" style="display:none; margin-top:1.25rem;">
         <div class="view-btns">
@@ -243,28 +188,22 @@
       </div>
     </div>
 
-    <!-- ── LIBRARY PANEL ── -->
+    <!-- ── LIBRARY ── -->
     <div class="panel" id="panel-library">
+      <div class="info-box">
+        💡 <strong>사용법:</strong> 참고문헌을 한 줄씩 입력하면 저자·연도·제목을 자동으로 파싱해 정렬해 드려요. 폴더별로 나눠 관리할 수 있고, 데이터는 브라우저에 자동 저장돼요.
+      </div>
+
       <div class="card">
-        <div class="card-title">✍️ 서지 정보 입력</div>
+        <div class="card-title">✍️ 참고문헌 추가</div>
         <textarea id="lib-input" rows="4"
-          placeholder="APA, MLA, 한국식 등 어떤 형식이든 붙여넣기&#10;&#10;예) Kim, J. (2023). Urban housing policy. Journal of Urban Studies, 12(3), 45–67.&#10;&#10;여러 항목은 줄바꿈으로 구분"></textarea>
-        <button class="btn-primary" id="btn-parse" style="margin-top:10px">✨ 자동 파싱 후 추가</button>
-        <div id="parse-loading" class="loading-bar" style="display:none">
-          <div class="spinner"></div> AI가 서지 정보를 파싱하는 중...
-        </div>
-        <div id="parse-err" class="err-text" style="display:none">⚠️ 파싱 오류. 다시 시도해 주세요.</div>
+          placeholder="한 줄에 하나씩 입력하거나 여러 항목을 한번에 붙여넣기&#10;&#10;예) 홍길동. (2023). 한국 도시계획의 변화. 도시연구, 12(3), 45-67.&#10;예) Kim, J. (2023). Urban housing policy. Journal of Urban Studies, 12(3), 45–67."></textarea>
+        <button class="btn-p" id="btn-add-ref" style="margin-top:10px">➕ 추가</button>
       </div>
 
-      <div class="folder-row" id="folder-row">
-        <!-- chips injected by JS -->
-        <div class="new-folder-wrap">
-          <input type="text" id="new-folder-input" placeholder="새 폴더명" />
-          <button class="btn-outline btn-sm" id="btn-add-folder">＋ 추가</button>
-        </div>
-      </div>
+      <div class="folder-row" id="folder-row"></div>
 
-      <div class="card" id="ref-list-card">
+      <div class="card">
         <div id="ref-list"></div>
       </div>
       <div class="count-note" id="count-note"></div>
@@ -272,209 +211,199 @@
   </main>
 </div>
 
-<!-- mammoth for docx -->
 <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
 <script>
-// ══════════════════════════════════════════
+// ════════════════════════════════════════
 //  STATE
-// ══════════════════════════════════════════
-let API_KEY = localStorage.getItem('refmgr_apikey') || '';
-let libState = JSON.parse(localStorage.getItem('refmgr_lib') || '{"folders":["전체","기본 폴더"],"refs":[],"activeFolder":"전체"}');
+// ════════════════════════════════════════
+let lib = JSON.parse(localStorage.getItem('refmgr_lib') || '{"folders":["전체","기본 폴더"],"refs":[],"activeFolder":"전체"}');
+function saveLib() { localStorage.setItem('refmgr_lib', JSON.stringify(lib)); }
 
-function saveLib() {
-  localStorage.setItem('refmgr_lib', JSON.stringify(libState));
-}
-
-// ══════════════════════════════════════════
-//  HELPERS
-// ══════════════════════════════════════════
-async function callClaude(system, user) {
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': API_KEY,
-      'anthropic-version': '2023-06-01',
-      'anthropic-dangerous-direct-browser-calls': 'true'
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1500,
-      system,
-      messages: [{ role: 'user', content: user }]
-    })
-  });
-  if (!res.ok) throw new Error('API error ' + res.status);
-  const d = await res.json();
-  return d.content?.[0]?.text || '';
+// ════════════════════════════════════════
+//  UTILS
+// ════════════════════════════════════════
+function qs(s) { return document.querySelector(s); }
+function show(el) { el.style.display = ''; }
+function hide(el) { el.style.display = 'none'; }
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 async function readFileText(file) {
   if (file.name.endsWith('.docx')) {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       const r = new FileReader();
-      r.onload = async (e) => {
-        try {
-          const res = await mammoth.extractRawText({ arrayBuffer: e.target.result });
-          resolve(res.value);
-        } catch { resolve('[DOCX 파싱 실패. 텍스트를 직접 붙여넣어 주세요.]'); }
+      r.onload = async e => {
+        try { const res = await mammoth.extractRawText({arrayBuffer: e.target.result}); resolve(res.value); }
+        catch { resolve('[DOCX 파싱 실패. 텍스트를 직접 붙여넣어 주세요.]'); }
       };
       r.readAsArrayBuffer(file);
     });
   }
-  if (file.type === 'application/pdf') return '[PDF는 텍스트를 직접 붙여넣어 주세요.]';
   return new Promise((resolve, reject) => {
-    const r = new FileReader();
-    r.onload = e => resolve(e.target.result);
-    r.onerror = reject;
-    r.readAsText(file);
+    const r = new FileReader(); r.onload = e => resolve(e.target.result); r.onerror = reject; r.readAsText(file);
   });
 }
 
-function parseJSON(raw) {
-  return JSON.parse(raw.replace(/```json|```/g, '').trim());
+function setupUpload(zoneId, fileId, targetId) {
+  const zone = qs('#'+zoneId), fi = qs('#'+fileId), ta = qs('#'+targetId);
+  zone.addEventListener('click', () => fi.click());
+  zone.addEventListener('dragover', e => e.preventDefault());
+  zone.addEventListener('drop', async e => { e.preventDefault(); ta.value = await readFileText(e.dataTransfer.files[0]); });
+  fi.addEventListener('change', async () => { if (fi.files[0]) ta.value = await readFileText(fi.files[0]); });
 }
+setupUpload('body-drop','body-file','body-text');
+setupUpload('ref-drop','ref-file','ref-text');
 
-function show(el) { el.style.display = ''; }
-function hide(el) { el.style.display = 'none'; }
-function qs(sel) { return document.querySelector(sel); }
-
-// ══════════════════════════════════════════
-//  LOGIN
-// ══════════════════════════════════════════
-function bootApp() {
-  hide(qs('#login-screen'));
-  qs('#app').style.display = 'flex';
-  renderFolders();
-  renderRefs();
-}
-
-if (API_KEY) bootApp();
-
-qs('#login-btn').addEventListener('click', async () => {
-  const key = qs('#api-key-input').value.trim();
-  if (!key.startsWith('sk-')) { show(qs('#login-err')); return; }
-  qs('#login-btn').textContent = '연결 확인 중...';
-  qs('#login-btn').disabled = true;
-  try {
-    await callClaude('You are a test.', 'ping');
-    API_KEY = key;
-    localStorage.setItem('refmgr_apikey', key);
-    hide(qs('#login-err'));
-    bootApp();
-  } catch {
-    show(qs('#login-err'));
-  }
-  qs('#login-btn').textContent = '시작하기 →';
-  qs('#login-btn').disabled = false;
-});
-
-qs('#api-key-input').addEventListener('keydown', e => { if (e.key === 'Enter') qs('#login-btn').click(); });
-
-qs('#btn-logout').addEventListener('click', () => {
-  if (!confirm('로그아웃 하면 API Key가 삭제됩니다. 계속할까요?')) return;
-  localStorage.removeItem('refmgr_apikey');
-  API_KEY = '';
-  qs('#app').style.display = 'none';
-  show(qs('#login-screen'));
-  qs('#api-key-input').value = '';
-});
-
-// ══════════════════════════════════════════
+// ════════════════════════════════════════
 //  TABS
-// ══════════════════════════════════════════
+// ════════════════════════════════════════
 document.querySelectorAll('.tab').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
     btn.classList.add('active');
-    qs('#panel-' + btn.dataset.tab).classList.add('active');
+    qs('#panel-'+btn.dataset.tab).classList.add('active');
   });
 });
 
-// ══════════════════════════════════════════
-//  UPLOAD ZONES
-// ══════════════════════════════════════════
-function setupUpload(zoneId, fileId, targetId) {
-  const zone = qs('#' + zoneId);
-  const fileInput = qs('#' + fileId);
-  const target = qs('#' + targetId);
-  zone.addEventListener('click', () => fileInput.click());
-  zone.addEventListener('dragover', e => e.preventDefault());
-  zone.addEventListener('drop', async e => {
-    e.preventDefault();
-    target.value = await readFileText(e.dataTransfer.files[0]);
-  });
-  fileInput.addEventListener('change', async () => {
-    if (fileInput.files[0]) target.value = await readFileText(fileInput.files[0]);
-  });
+// ════════════════════════════════════════
+//  CITATION EXTRACTION (텍스트 매칭)
+// ════════════════════════════════════════
+function extractCitations(text, style) {
+  const found = new Set();
+
+  // APA: (Hong, 2023) (홍길동, 2023) (Hong & Lee, 2023) (Hong et al., 2023)
+  if (style === 'apa' || style === 'auto') {
+    const apa = /\(([^\)]{2,60}?,\s*\d{4}[a-z]?(?:,\s*p+\.?\s*[\d–\-]+)?\s*)\)/g;
+    let m; while ((m = apa.exec(text)) !== null) found.add(m[1].trim());
+  }
+
+  // MLA: (Hong 23) (Hong 45-47)
+  if (style === 'mla' || style === 'auto') {
+    const mla = /\(([A-Za-z가-힣]{2,30}\s+\d{1,4}(?:[–\-]\d{1,4})?)\)/g;
+    let m; while ((m = mla.exec(text)) !== null) found.add(m[1].trim());
+  }
+
+  // Chicago footnote numbers: ¹ ² ³ or superscript 1,2,3 or plain footnote markers
+  if (style === 'chicago' || style === 'auto') {
+    const ch = /[¹²³⁴⁵⁶⁷⁸⁹⁰]+/g;
+    let m; while ((m = ch.exec(text)) !== null) found.add('각주 ' + m[0]);
+    // Chicago author-date: (Hong 2023, 45)
+    const chad = /\(([A-Za-z가-힣]{2,30}\s+\d{4}(?:,\s*\d+)?)\)/g;
+    while ((m = chad.exec(text)) !== null) found.add(m[1].trim());
+  }
+
+  // Korean: 홍길동(2023) 홍길동 (2023)
+  if (style === 'korean' || style === 'auto') {
+    const kr = /([가-힣]{2,6})\s*\((\d{4}[a-z]?)\)/g;
+    let m; while ((m = kr.exec(text)) !== null) found.add(m[1] + '(' + m[2] + ')');
+  }
+
+  return [...found];
 }
-setupUpload('body-drop', 'body-file', 'body-text');
-setupUpload('ref-drop', 'ref-file', 'ref-text');
 
-// ══════════════════════════════════════════
+// 참고문헌 목록에서 저자/연도 키 추출
+function parseRefKey(line) {
+  line = line.trim();
+  if (!line) return null;
+
+  // APA/한국식: 홍길동. (2023). / Hong, J. (2023).
+  let m = line.match(/^([^.(（]{2,40})[.。]?\s*[\(（](\d{4}[a-z]?)[\)）]/);
+  if (m) return { raw: line, author: m[1].trim(), year: m[2] };
+
+  // MLA: Hong, James. "Title..." 2023.
+  m = line.match(/^([A-Za-z가-힣, ]{2,40})\.\s+[""「]/);
+  if (m) {
+    const yr = line.match(/\b(\d{4})\b/);
+    return { raw: line, author: m[1].trim(), year: yr ? yr[1] : '' };
+  }
+
+  // fallback: 첫 저자 + 연도
+  const yr = line.match(/\b(\d{4})\b/);
+  const auth = line.match(/^([^\d(（,]{2,30})/);
+  return { raw: line, author: auth ? auth[1].trim() : line.slice(0,20), year: yr ? yr[1] : '' };
+}
+
+// 인용 문자열이 참고문헌 항목과 매칭되는지 확인
+function matchCitation(cite, refKey) {
+  if (!refKey) return false;
+  const cLow = cite.toLowerCase().replace(/\s/g,'');
+  const aLow = refKey.author.toLowerCase().replace(/[.,\s]/g,'');
+
+  // 저자 일부 포함 여부
+  const authorWords = refKey.author.replace(/[.,]/g,' ').trim().split(/\s+/);
+  const firstAuthor = authorWords[0].toLowerCase();
+
+  const authorMatch = cLow.includes(firstAuthor) || (firstAuthor.length > 1 && aLow.slice(0,4) && cLow.includes(aLow.slice(0,4)));
+  const yearMatch = refKey.year && cite.includes(refKey.year);
+
+  return authorMatch && (yearMatch || refKey.year === '');
+}
+
+// ════════════════════════════════════════
 //  VERIFY
-// ══════════════════════════════════════════
+// ════════════════════════════════════════
 let verifyData = null;
-let currentView = 'issues';
 
-qs('#btn-verify').addEventListener('click', async () => {
-  const body = qs('#body-text').value.trim();
-  const refs = qs('#ref-text').value.trim();
-  const style = qs('#cite-style').value;
-  if (!body || !refs) return;
+qs('#btn-verify').addEventListener('click', () => {
+  const bodyText = qs('#body-text').value;
+  const refText  = qs('#ref-text').value;
+  const style    = qs('#cite-style').value;
 
-  hide(qs('#verify-result'));
-  hide(qs('#verify-err'));
-  show(qs('#verify-loading'));
+  if (!bodyText.trim() || !refText.trim()) {
+    alert('본문과 참고문헌을 모두 입력해 주세요.');
+    return;
+  }
 
-  const sys = `You are a citation auditor. Given a paper body and reference list, identify:
-1. citations_in_body_not_in_refs: citations in body not matching any reference
-2. refs_not_cited_in_body: references never cited in the body
-3. all_matches: [{body_citation, ref_entry, matched: bool}]
-Citation style: ${style}.
-Return ONLY valid JSON, no markdown fences:
-{"citations_in_body_not_in_refs":[],"refs_not_cited_in_body":[],"all_matches":[],"summary":{"total_body_citations":0,"total_refs":0,"missing_from_refs":0,"unused_refs":0}}`;
+  // 1. 본문에서 인용 추출
+  const citations = extractCitations(bodyText, style);
 
-  try {
-    const raw = await callClaude(sys, `BODY:\n${body}\n\nREFERENCES:\n${refs}`);
-    verifyData = parseJSON(raw);
-    renderVerifyResult('issues');
-    show(qs('#verify-result'));
-  } catch { show(qs('#verify-err')); }
-  hide(qs('#verify-loading'));
+  // 2. 참고문헌 파싱
+  const refLines = refText.split('\n').map(l => l.trim()).filter(l => l.length > 3);
+  const refKeys  = refLines.map(parseRefKey);
+
+  // 3. 매칭
+  const allMatches = citations.map(cite => {
+    const matched = refKeys.find(rk => rk && matchCitation(cite, rk));
+    return { cite, ref: matched ? matched.raw : null, matched: !!matched };
+  });
+
+  // 4. 참고문헌 중 미사용
+  const usedRefs = new Set(allMatches.filter(m => m.matched).map(m => m.ref));
+  const unusedRefs = refLines.filter(r => !usedRefs.has(r));
+  const missingRefs = allMatches.filter(m => !m.matched).map(m => m.cite);
+
+  verifyData = { allMatches, unusedRefs, missingRefs, totalCite: citations.length, totalRef: refLines.length };
+  renderVerify('issues');
+  show(qs('#verify-result'));
 });
 
 document.querySelectorAll('.view-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    renderVerifyResult(btn.dataset.view);
+    renderVerify(btn.dataset.view);
   });
 });
 
-function renderVerifyResult(view) {
-  currentView = view;
+function renderVerify(view) {
   hide(qs('#view-issues')); hide(qs('#view-all')); hide(qs('#view-summary'));
   const d = verifyData;
 
   if (view === 'issues') {
     const el = qs('#view-issues'); show(el);
     let html = '';
-    if (!d.citations_in_body_not_in_refs?.length && !d.refs_not_cited_in_body?.length) {
+    if (!d.missingRefs.length && !d.unusedRefs.length) {
       html = '<div class="empty">✅ 누락 및 미사용 항목이 없어요!</div>';
     }
-    if (d.citations_in_body_not_in_refs?.length) {
+    if (d.missingRefs.length) {
       html += '<div class="card-title">🚨 본문에 있으나 참고문헌에 없는 인용</div>';
-      d.citations_in_body_not_in_refs.forEach(c => {
-        html += `<div class="result-row"><span class="badge badge-red">누락</span><span style="font-size:13px">${esc(c)}</span></div>`;
-      });
+      d.missingRefs.forEach(c => { html += `<div class="result-row"><span class="badge badge-red">누락</span><span style="font-size:13px">${esc(c)}</span></div>`; });
     }
-    if (d.refs_not_cited_in_body?.length) {
+    if (d.unusedRefs.length) {
       html += '<div class="card-title" style="margin-top:16px">💤 참고문헌에 있으나 본문에서 미사용</div>';
-      d.refs_not_cited_in_body.forEach(r => {
-        html += `<div class="result-row"><span class="badge badge-amber">미사용</span><span style="font-size:13px">${esc(r)}</span></div>`;
-      });
+      d.unusedRefs.forEach(r => { html += `<div class="result-row"><span class="badge badge-amber">미사용</span><span style="font-size:13px">${esc(r)}</span></div>`; });
     }
     el.innerHTML = html;
   }
@@ -482,12 +411,13 @@ function renderVerifyResult(view) {
   if (view === 'all') {
     const el = qs('#view-all'); show(el);
     let html = '<div class="card-title">🔗 전체 인용 매칭 현황</div>';
-    (d.all_matches || []).forEach(m => {
+    if (!d.allMatches.length) { html += '<div class="empty">인용이 감지되지 않았어요. 인용 스타일을 확인해 주세요.</div>'; }
+    d.allMatches.forEach(m => {
       html += `<div class="result-row">
-        <span class="badge ${m.matched ? 'badge-green' : 'badge-red'}">${m.matched ? '✓ 매칭' : '✗ 불일치'}</span>
+        <span class="badge ${m.matched?'badge-green':'badge-red'}">${m.matched?'✓ 매칭':'✗ 불일치'}</span>
         <div style="font-size:13px">
-          <div style="color:#888;margin-bottom:2px">본문: ${esc(m.body_citation)}</div>
-          <div>참고문헌: ${esc(m.ref_entry || '—')}</div>
+          <div style="color:#888;margin-bottom:2px">본문 인용: ${esc(m.cite)}</div>
+          <div>참고문헌: ${esc(m.ref||'—')}</div>
         </div>
       </div>`;
     });
@@ -496,189 +426,173 @@ function renderVerifyResult(view) {
 
   if (view === 'summary') {
     const el = qs('#view-summary'); show(el);
-    const s = d.summary || {};
-    const stats = [
-      ['📝', '본문 총 인용 수', s.total_body_citations],
-      ['📚', '참고문헌 총 수', s.total_refs],
-      ['🚨', '참고문헌 누락', s.missing_from_refs],
-      ['💤', '미사용 참고문헌', s.unused_refs],
-    ];
-    el.innerHTML = `<div class="stat-grid">${stats.map(([e,l,v]) =>
-      `<div class="stat-card"><div class="stat-emoji">${e}</div><div class="stat-label">${l}</div><div class="stat-val">${v ?? '—'}</div></div>`
-    ).join('')}</div>`;
+    el.innerHTML = `<div class="stat-grid">
+      ${[['📝','본문 인용 수',d.totalCite],['📚','참고문헌 수',d.totalRef],
+         ['🚨','참고문헌 누락',d.missingRefs.length],['💤','미사용 참고문헌',d.unusedRefs.length]]
+        .map(([e,l,v])=>`<div class="stat-card"><div class="stat-emoji">${e}</div><div class="stat-label">${l}</div><div class="stat-val">${v}</div></div>`).join('')}
+    </div>`;
   }
 }
 
-// ══════════════════════════════════════════
+// ════════════════════════════════════════
+//  LIBRARY — PARSE
+// ════════════════════════════════════════
+function parseRefEntry(line) {
+  line = line.trim();
+  if (!line) return null;
+  const rk = parseRefKey(line);
+  return {
+    id: Date.now() + Math.random(),
+    raw: line,
+    title: extractTitle(line),
+    authors: rk ? rk.author : '',
+    year: rk ? rk.year : '',
+    folder: lib.activeFolder === '전체' ? '기본 폴더' : lib.activeFolder
+  };
+}
+
+function extractTitle(line) {
+  // after year )  .  "title" or 「title」
+  let m = line.match(/\)\.\s+([^.]+)/);
+  if (m) return m[1].trim();
+  m = line.match(/["「]([^"」]+)["」]/);
+  if (m) return m[1].trim();
+  // fallback: everything after first period
+  const parts = line.split('.');
+  return parts.length > 1 ? parts[1].trim() : line;
+}
+
+function sortRefs(arr) {
+  return [...arr].sort((a,b) => {
+    const ka = (a.authors || a.title || '').toLowerCase();
+    const kb = (b.authors || b.title || '').toLowerCase();
+    return ka < kb ? -1 : ka > kb ? 1 : 0;
+  });
+}
+
+qs('#btn-add-ref').addEventListener('click', () => {
+  const input = qs('#lib-input').value.trim();
+  if (!input) return;
+  const lines = input.split('\n').filter(l => l.trim().length > 3);
+  const items = lines.map(parseRefEntry).filter(Boolean);
+  lib.refs = sortRefs([...lib.refs, ...items]);
+  saveLib();
+  qs('#lib-input').value = '';
+  renderRefs();
+});
+
+// ════════════════════════════════════════
 //  LIBRARY — FOLDERS
-// ══════════════════════════════════════════
+// ════════════════════════════════════════
 function renderFolders() {
   const row = qs('#folder-row');
-  const newWrap = row.querySelector('.new-folder-wrap');
+  // preserve new-folder input
+  const nfWrap = row.querySelector('.nf-wrap');
+  const nfVal = nfWrap ? qs('#nf-input').value : '';
   row.innerHTML = '';
-  libState.folders.forEach(f => {
+  lib.folders.forEach(f => {
     const chip = document.createElement('span');
-    chip.className = 'folder-chip' + (f === libState.activeFolder ? ' active' : '');
-    chip.innerHTML = `${f === '전체' ? '🗂️' : '📁'} ${esc(f)}` +
-      (f !== '전체' && f !== '기본 폴더' ? `<span class="del" data-folder="${esc(f)}">×</span>` : '');
-    chip.addEventListener('click', (e) => {
-      if (e.target.classList.contains('del')) {
-        if (!confirm(`"${f}" 폴더를 삭제할까요? 항목은 기본 폴더로 이동됩니다.`)) return;
-        libState.refs = libState.refs.map(r => r.folder === f ? { ...r, folder: '기본 폴더' } : r);
-        libState.folders = libState.folders.filter(x => x !== f);
-        if (libState.activeFolder === f) libState.activeFolder = '전체';
+    chip.className = 'folder-chip' + (f === lib.activeFolder ? ' active' : '');
+    chip.innerHTML = (f==='전체'?'🗂️':'📁') + ' ' + esc(f) +
+      (f!=='전체'&&f!=='기본 폴더' ? `<span class="chip-del" data-f="${esc(f)}">×</span>` : '');
+    chip.addEventListener('click', e => {
+      if (e.target.classList.contains('chip-del')) {
+        const name = e.target.dataset.f;
+        if (!confirm(`"${name}" 폴더를 삭제할까요? 항목은 기본 폴더로 이동됩니다.`)) return;
+        lib.refs = lib.refs.map(r => r.folder===name ? {...r, folder:'기본 폴더'} : r);
+        lib.folders = lib.folders.filter(x => x!==name);
+        if (lib.activeFolder===name) lib.activeFolder='전체';
         saveLib(); renderFolders(); renderRefs(); return;
       }
-      libState.activeFolder = f;
-      saveLib(); renderFolders(); renderRefs();
+      lib.activeFolder = f; saveLib(); renderFolders(); renderRefs();
     });
     row.appendChild(chip);
   });
-  row.appendChild(newWrap || (() => {
-    const w = document.createElement('div');
-    w.className = 'new-folder-wrap';
-    w.innerHTML = `<input type="text" id="new-folder-input" placeholder="새 폴더명" /><button class="btn-outline btn-sm" id="btn-add-folder">＋ 추가</button>`;
-    return w;
-  })());
-  setupFolderAdd();
-}
-
-function setupFolderAdd() {
-  const inp = qs('#new-folder-input');
-  const btn = qs('#btn-add-folder');
-  if (!inp || !btn) return;
-  btn.onclick = addFolder;
-  inp.onkeydown = e => { if (e.key === 'Enter') addFolder(); };
+  const nw = document.createElement('div');
+  nw.className = 'nf-wrap';
+  nw.innerHTML = `<input type="text" id="nf-input" placeholder="새 폴더명" value="${esc(nfVal)}" style="width:140px;padding:7px 11px;font-size:13px" />
+    <button class="btn-o btn-sm" id="btn-nf">＋ 추가</button>`;
+  row.appendChild(nw);
+  qs('#btn-nf').addEventListener('click', addFolder);
+  qs('#nf-input').addEventListener('keydown', e => { if(e.key==='Enter') addFolder(); });
 }
 
 function addFolder() {
-  const inp = qs('#new-folder-input');
-  const f = inp.value.trim();
-  if (!f || libState.folders.includes(f)) return;
-  libState.folders.push(f);
-  inp.value = '';
+  const f = qs('#nf-input').value.trim();
+  if (!f || lib.folders.includes(f)) return;
+  lib.folders.push(f);
+  qs('#nf-input').value = '';
   saveLib(); renderFolders();
 }
 
-// ══════════════════════════════════════════
-//  LIBRARY — REFS
-// ══════════════════════════════════════════
 function renderRefs() {
-  const visible = libState.activeFolder === '전체'
-    ? libState.refs
-    : libState.refs.filter(r => r.folder === libState.activeFolder);
+  const visible = lib.activeFolder==='전체' ? lib.refs : lib.refs.filter(r=>r.folder===lib.activeFolder);
   const list = qs('#ref-list');
-  const note = qs('#count-note');
-
   if (!visible.length) {
-    list.innerHTML = `<div class="empty">${libState.activeFolder === '전체' ? '📭 참고문헌을 추가해 보세요!' : '📂 이 폴더는 비어 있어요.'}</div>`;
-    note.textContent = '';
-    return;
+    list.innerHTML = `<div class="empty">${lib.activeFolder==='전체'?'📭 참고문헌을 추가해 보세요!':'📂 이 폴더는 비어 있어요.'}</div>`;
+    qs('#count-note').textContent = ''; return;
   }
-
   list.innerHTML = visible.map(r => {
-    const folderOpts = libState.folders.filter(f => f !== '전체')
-      .map(f => `<option${f === r.folder ? ' selected' : ''}>${esc(f)}</option>`).join('');
-    const meta = [r.authors, r.year && `(${r.year})`, r.journal].filter(Boolean).join(' · ');
+    const opts = lib.folders.filter(f=>f!=='전체').map(f=>`<option${f===r.folder?' selected':''}>${esc(f)}</option>`).join('');
+    const meta = [r.authors, r.year&&`(${r.year})`].filter(Boolean).join(' ');
     return `<div class="ref-item" data-id="${r.id}">
       <div style="flex:1;min-width:0">
-        <div class="ref-title">${esc(r.title || r.raw)}</div>
-        ${meta ? `<div class="ref-meta">${esc(meta)}</div>` : ''}
+        <div class="ref-title">${esc(r.title||r.raw)}</div>
+        ${meta?`<div class="ref-meta">${esc(meta)}</div>`:''}
         <span class="badge badge-gray">📁 ${esc(r.folder)}</span>
       </div>
       <div class="ref-actions">
-        <select class="move-select">${folderOpts}</select>
+        <select class="mv-sel">${opts}</select>
         <button class="btn-icon del-ref" title="삭제">🗑️</button>
       </div>
     </div>`;
   }).join('');
 
-  list.querySelectorAll('.move-select').forEach(sel => {
+  list.querySelectorAll('.mv-sel').forEach(sel => {
     sel.addEventListener('change', () => {
       const id = +sel.closest('.ref-item').dataset.id;
-      libState.refs = libState.refs.map(r => r.id === id ? { ...r, folder: sel.value } : r);
+      lib.refs = lib.refs.map(r => r.id===id ? {...r, folder:sel.value} : r);
       saveLib(); renderRefs(); renderFolders();
     });
   });
   list.querySelectorAll('.del-ref').forEach(btn => {
     btn.addEventListener('click', () => {
       const id = +btn.closest('.ref-item').dataset.id;
-      libState.refs = libState.refs.filter(r => r.id !== id);
+      lib.refs = lib.refs.filter(r => r.id!==id);
       saveLib(); renderRefs();
     });
   });
-
-  note.textContent = `📋 ${visible.length}개 항목 · 저자/제목 기준 가나다/ABC순 자동 정렬`;
+  qs('#count-note').textContent = `📋 ${visible.length}개 항목 · 저자/제목 기준 가나다/ABC순 자동 정렬`;
 }
 
-// ══════════════════════════════════════════
-//  LIBRARY — PARSE
-// ══════════════════════════════════════════
-qs('#btn-parse').addEventListener('click', async () => {
-  const input = qs('#lib-input').value.trim();
-  if (!input) return;
-  hide(qs('#parse-err'));
-  show(qs('#parse-loading'));
-  const sys = `You are a bibliography parser. Extract structured info from any citation style input.
-Return ONLY valid JSON array, no markdown:
-[{"title":"...","authors":"...","year":"...","journal":"...","raw":"..."}]
-If multiple references, return all. raw should be the original citation string.`;
-  try {
-    const raw = await callClaude(sys, input);
-    const parsed = parseJSON(raw);
-    const folder = libState.activeFolder === '전체' ? '기본 폴더' : libState.activeFolder;
-    const items = parsed.map(r => ({ ...r, folder, id: Date.now() + Math.random() }));
-    libState.refs = [...libState.refs, ...items].sort((a, b) => {
-      const ka = (a.authors || a.title || '').toLowerCase();
-      const kb = (b.authors || b.title || '').toLowerCase();
-      return ka < kb ? -1 : ka > kb ? 1 : 0;
-    });
-    saveLib();
-    qs('#lib-input').value = '';
-    renderRefs();
-  } catch { show(qs('#parse-err')); }
-  hide(qs('#parse-loading'));
-});
-
-// ══════════════════════════════════════════
+// ════════════════════════════════════════
 //  EXPORT / IMPORT
-// ══════════════════════════════════════════
+// ════════════════════════════════════════
 qs('#btn-export').addEventListener('click', () => {
-  const data = JSON.stringify(libState, null, 2);
-  const blob = new Blob([data], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `refmgr_backup_${new Date().toISOString().slice(0,10)}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
+  const blob = new Blob([JSON.stringify(lib, null, 2)], {type:'application/json'});
+  const a = Object.assign(document.createElement('a'), {href:URL.createObjectURL(blob), download:`refmgr_${new Date().toISOString().slice(0,10)}.json`});
+  a.click(); URL.revokeObjectURL(a.href);
 });
-
 qs('#btn-import-trigger').addEventListener('click', () => qs('#btn-import').click());
 qs('#btn-import').addEventListener('change', e => {
-  const file = e.target.files[0];
-  if (!file) return;
+  const file = e.target.files[0]; if (!file) return;
   const r = new FileReader();
   r.onload = ev => {
     try {
       const d = JSON.parse(ev.target.result);
-      if (!d.folders || !d.refs) throw new Error();
+      if (!d.folders||!d.refs) throw 0;
       if (!confirm('현재 라이브러리를 불러온 데이터로 대체할까요?')) return;
-      libState = d;
-      saveLib(); renderFolders(); renderRefs();
+      lib = d; saveLib(); renderFolders(); renderRefs();
     } catch { alert('올바른 백업 파일이 아니에요.'); }
   };
-  r.readAsText(file);
-  e.target.value = '';
+  r.readAsText(file); e.target.value = '';
 });
 
-// ══════════════════════════════════════════
-//  UTILS
-// ══════════════════════════════════════════
-function esc(str) {
-  if (!str) return '';
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
+// ════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════
+renderFolders();
+renderRefs();
 </script>
 </body>
 </html>
