@@ -1,1 +1,7 @@
-# Potato-reperence-manager
+# reperence-manager
+
+AI사용하는 버전으로 만들고 싶었는데, 그건 API Key를 개인적으로 발급받아야 한다고 함
+나는 그런 돈 없음ㅠ
+
+그래서 단순 체크 해주는 용도로 일단 낮춰서 제작함
+나중에 기회가 되면 업데이트 할수도...
